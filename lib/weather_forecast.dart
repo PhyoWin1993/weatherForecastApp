@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wc/model/weather_forecast_model.dart';
 import 'package:wc/network/network.dart';
+import 'package:wc/ui/mid_view.dart';
 
 class WeatherForecast extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    forecastObject = Network().getWeatherForecast(cityName: _cityName);
+    forecastObject = getWeather(cityName: _cityName);
     // forecastObject
     //     .then((weather) => print("print data is ==>>${weather.sys.country}"));
   }
@@ -31,7 +32,11 @@ class _WeatherForecastState extends State<WeatherForecast> {
             builder: (BuildContext context,
                 AsyncSnapshot<WeatherForecastModel> snapshot) {
               if (snapshot.hasData) {
-                return Text("All Good");
+                return Column(
+                  children: <Widget>[
+                    midView(snapshot),
+                  ],
+                );
               } else {
                 return Container(
                   child: Center(
@@ -56,8 +61,16 @@ class _WeatherForecastState extends State<WeatherForecast> {
               borderRadius: BorderRadius.circular(10),
             ),
             contentPadding: EdgeInsets.all(8)),
-        onSubmitted: (value) => print(value),
+        onSubmitted: (value) {
+          setState(() {
+            _cityName = value;
+            forecastObject = getWeather(cityName: _cityName);
+          });
+        },
       ),
     );
   }
+
+  Future<WeatherForecastModel> getWeather({String cityName}) =>
+      new Network().getWeatherForecast(cityName: _cityName);
 }
