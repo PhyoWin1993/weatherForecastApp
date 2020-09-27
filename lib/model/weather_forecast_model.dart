@@ -82,8 +82,8 @@ class WeatherForecastModel {
 }
 
 class Coord {
-  double lon;
-  double lat;
+  int lon;
+  int lat;
 
   Coord({this.lon, this.lat});
 
@@ -132,6 +132,8 @@ class Main {
   double tempMax;
   int pressure;
   int humidity;
+  int seaLevel;
+  int grndLevel;
 
   Main(
       {this.temp,
@@ -139,7 +141,9 @@ class Main {
       this.tempMin,
       this.tempMax,
       this.pressure,
-      this.humidity});
+      this.humidity,
+      this.seaLevel,
+      this.grndLevel});
 
   Main.fromJson(Map<String, dynamic> json) {
     temp = json['temp'];
@@ -148,6 +152,8 @@ class Main {
     tempMax = json['temp_max'];
     pressure = json['pressure'];
     humidity = json['humidity'];
+    seaLevel = json['sea_level'];
+    grndLevel = json['grnd_level'];
   }
 
   Map<String, dynamic> toJson() {
@@ -158,6 +164,8 @@ class Main {
     data['temp_max'] = this.tempMax;
     data['pressure'] = this.pressure;
     data['humidity'] = this.humidity;
+    data['sea_level'] = this.seaLevel;
+    data['grnd_level'] = this.grndLevel;
     return data;
   }
 }
@@ -165,21 +173,18 @@ class Main {
 class Wind {
   double speed;
   int deg;
-  double gust;
 
-  Wind({this.speed, this.deg, this.gust});
+  Wind({this.speed, this.deg});
 
   Wind.fromJson(Map<String, dynamic> json) {
     speed = json['speed'];
     deg = json['deg'];
-    gust = json['gust'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['speed'] = this.speed;
     data['deg'] = this.deg;
-    data['gust'] = this.gust;
     return data;
   }
 }
@@ -201,17 +206,13 @@ class Clouds {
 }
 
 class Sys {
-  int type;
-  int id;
   String country;
   int sunrise;
   int sunset;
 
-  Sys({this.type, this.id, this.country, this.sunrise, this.sunset});
+  Sys({this.country, this.sunrise, this.sunset});
 
   Sys.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    id = json['id'];
     country = json['country'];
     sunrise = json['sunrise'];
     sunset = json['sunset'];
@@ -219,8 +220,6 @@ class Sys {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['id'] = this.id;
     data['country'] = this.country;
     data['sunrise'] = this.sunrise;
     data['sunset'] = this.sunset;
