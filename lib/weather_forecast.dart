@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wc/model/weather_forecast_model.dart';
 import 'package:wc/network/network.dart';
+import 'package:wc/ui/botton_view.dart';
+
 import 'package:wc/ui/mid_view.dart';
 
 class WeatherForecast extends StatefulWidget {
@@ -13,11 +15,8 @@ class _WeatherForecastState extends State<WeatherForecast> {
   String _cityName = "Myanmar";
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     forecastObject = getWeather(cityName: _cityName);
-    // forecastObject
-    //     .then((weather) => print("print data is ==>>${weather.sys.country}"));
   }
 
   @override
@@ -35,6 +34,7 @@ class _WeatherForecastState extends State<WeatherForecast> {
                 return Column(
                   children: <Widget>[
                     midView(snapshot),
+                    bottomView(snapshot, context), // Remove for minul
                   ],
                 );
               } else {
